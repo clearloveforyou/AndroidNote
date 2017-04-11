@@ -11,6 +11,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         login();
+
+        share();
+    }
+
+    private void share() {
+
     }
 
     private void login() {
