@@ -13,6 +13,14 @@ public class MainActivity extends AppCompatActivity {
         login();
 
         share();
+
+        pay();
+    }
+
+    private void pay() {
+
+
+        //增加了支付功能
     }
 
     private void share() {
