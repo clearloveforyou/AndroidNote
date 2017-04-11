@@ -15,6 +15,15 @@ public class MainActivity extends AppCompatActivity {
         share();
 
         pay();
+
+        bug();
+    }
+
+    private void bug() {
+
+        /**
+         * 增加了bug统计
+         */
     }
 
     private void pay() {
