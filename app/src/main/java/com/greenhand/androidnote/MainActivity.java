@@ -23,6 +23,15 @@ public class MainActivity extends AppCompatActivity {
         imgloader();
 
         list();
+
+        check();
+    }
+
+    private void check() {
+
+        /**
+         * 校检
+         */
     }
 
     private void list() {
