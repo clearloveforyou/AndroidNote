@@ -17,6 +17,15 @@ public class MainActivity extends AppCompatActivity {
         pay();
 
         bug();
+
+        http();
+    }
+
+    private void http() {
+
+        /**
+         * 增加了网络请求
+         */
     }
 
     private void bug() {
