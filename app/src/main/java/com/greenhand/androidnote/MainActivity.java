@@ -17,6 +17,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void share() {
 
+        //
+        shareQQ();
+
+    }
+
+    private void shareQQ() {
+
     }
 
     private void login() {
