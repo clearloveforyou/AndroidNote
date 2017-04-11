@@ -20,6 +20,13 @@ public class MainActivity extends AppCompatActivity {
         //
         shareQQ();
 
+        //
+        shareWechat();
+
+    }
+
+    private void shareWechat() {
+
     }
 
     private void shareQQ() {
