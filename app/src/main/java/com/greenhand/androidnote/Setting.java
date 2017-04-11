@@ -14,4 +14,8 @@ public class Setting {
     /**
      * 各种设置
      */
+
+    /**
+     * 紧急bug修复
+     */
 }
