@@ -19,6 +19,15 @@ public class MainActivity extends AppCompatActivity {
         bug();
 
         http();
+
+        imgloader();
+    }
+
+    private void imgloader() {
+
+        /**
+         * 增加了图片请求
+         */
     }
 
     private void http() {
