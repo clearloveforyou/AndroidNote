@@ -21,6 +21,15 @@ public class MainActivity extends AppCompatActivity {
         http();
 
         imgloader();
+
+        list();
+    }
+
+    private void list() {
+
+        /**
+         * 添加了list
+         */
     }
 
     private void imgloader() {
