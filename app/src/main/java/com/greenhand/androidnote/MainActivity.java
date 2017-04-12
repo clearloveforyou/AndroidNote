@@ -3,6 +3,9 @@ package com.greenhand.androidnote;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+/**
+ *
+ */
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -25,6 +28,21 @@ public class MainActivity extends AppCompatActivity {
         list();
 
         check();
+
+        set("","");
+    }
+
+    /**
+     * 字符串反转
+     * @param s 输入的字符串
+     * @param s1 反转的内容
+     * @return 完成的字符串
+     */
+    private String set(String s, String s1) {
+
+
+        return null;
+
     }
 
     private void check() {
@@ -32,8 +50,15 @@ public class MainActivity extends AppCompatActivity {
         /**
          * 校检
          */
+
+        /**
+         * 校检2
+         */
     }
 
+    /**
+     * hello
+     */
     private void list() {
 
         /**
