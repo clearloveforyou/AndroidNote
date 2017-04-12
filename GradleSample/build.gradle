@@ -1,0 +1,245 @@
+//插件
+//这个模块是一个Android程序，使用：com.android.application
+//如果是Android库，使用：com.android.library
+//此处的所有配置，均可以在 菜单栏----->Project Structure----->Modules(点我们的模块)中设置
+apply plugin: 'com.android.application'
+//产品名
+def PRODUCT_NAME = "hsl"
+//打包时间
+def packageTime() {
+    return new Date().format("MMddhhmmss", TimeZone.getTimeZone("GMT+8"))
+}
+//android程序构建需要配置的参数
+android {
+    /**
+     * 通过菜单栏操作，会自动的在android{}中生成，如果在android{}中删除，响应的菜单栏中的设置也会删除
+     * Properties:(选项)
+     *      Complie Sdk Version:指定编译使用的SDK版本
+     *      Build Tools Version：指定构建工具的版本
+     *      Library Respository:指定依赖的仓库源，一旦指定就会覆盖在项目build.gradle中指定的默认仓库
+     *      Ignore Assets Pattern:指定构建打包时要忽略Assets文件夹里的哪些文件
+     *      Incremental Dex:增量打包（不是全量），开启后可以提升编译和打包的速度---没试过！！！
+     *      Source Compatibility: 指定资源版本
+     *      Target Compatibility: 指定目标版本
+     *
+     */
+    //编译使用的SDK版本，API25对应Android系统7.1.1，
+    //为什么用最新，废话，你为什么喜欢最新的iphone,因为提供的新工具多喽！！
+    compileSdkVersion 25
+    //buildTools的版本，也是最新
+    buildToolsVersion "25.0.0"
+    //指定构建打包时要忽略Assets文件夹里的哪些文件
+    aaptOptions {
+        ignoreAssetsPattern 'Cities'
+    }
+    //增量打包（不是全量），开启后可以提升编译和打包的速度
+    dexOptions {
+        incremental true
+    }
+    //指定资源版本
+    //指定目标版本
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+    /**
+     * 通过菜单栏操作
+     * Signing(选项)
+     *          点击加号，新增签名配置
+     *          Name:签名配置的名字：如：signingConfigs
+     *          Key Alias:密钥别名 如：notes
+     *          key Password:密钥密码 如：1414006272
+     *          Store File :签名证书存储路径
+     *          Store Password:存储的密码
+     */
+    //配置应用程序的签名
+    //为什么要配置？难道我们每次用:菜单栏----->build----->Generate Signed APK不可以吗？
+    //当然可以啊，但是每次都这样高不是很麻烦，我们在这儿配置了就可以用右边栏---->Gradle工具进行自动打包和签名，其不爽贼
+    //这个签名证书文件：notekey.jks一定要保存好，否则一旦你会boom
+    signingConfigs {
+        signingconfig {
+            keyAlias 'notes'
+            keyPassword '1414006272'
+            storeFile file('D:/Development/AndroidWorkSpace/AndroidnoteDocs/notekey.jks')
+            storePassword '1414006272'
+        }
+    }
+    /**
+     * 通过菜单栏操作
+     * Flavors（选项）
+     *          Name: Flavors的名字，如：我们的defaultConfig，或者常用的渠道名字：xiaomi、wandoujia
+     *          Min Sdk Version: 向下兼容的最小SDK版本
+     *          Application id: 应用程序的包名
+     *          Proguard File: 指定混淆文件的路径，不指定使用默认
+     *          Signing Config: 指定签名文件（我们在上面配置好的signingConfigs.signingconfig）
+     *          Target Sdk Version:目标sdk版本
+     *          Test Instrumentation Runner:指定Test Runner
+     *          Test Application Id: 测试应用的id
+     *          version Code 应用程序的版本号，用于升级（每次发布的时候，versionCode只能大于或者等于老版本的versionCode值，否者会出现更新失败）
+     *          version Name 应用程序版本名称，用户会看到，版本名称一般格式为1.1.111（只能三位）或者1.1
+     *          Version Name Suffix:应用程序版本名称的后缀
+     */
+    //默认配置的Flavors
+    defaultConfig {
+        applicationId "com.greenhand.androidnote"
+        minSdkVersion 15
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.signingconfig
+    }
+    /**
+     * 通过菜单栏操作
+     * Flavors（选项） 点击“+”
+     * 其他与上面相同
+     * 什么叫产品特性：就是一个应用我们可以有多个样式或者风格，
+     * 比如：内测与公测版本的url不同，一些列表也不同
+     * 比如：我们在华为市场上传的app图标与小米市场上的不同
+     * 这就出现了多种风格，我们不可能重新建项目搞，这时候产品特性就来了
+     * 当我们新增了Flavors时，Gradle还会为该Flavors关联对应的sourceSet，默认位置为src/目录
+     * 对应到本例就是src/alpha
+     *            src/beta
+     *            src/RC
+     *            src/wandoujia
+     *            src/huawei
+     *            src/xiaomi
+     * 这些文件夹系统不会创建，只会关联，我们手动创建即可，我们需要那块与main不同，或者那块有自己的构造，就创建
+     * 那部分，没必要全部创建出来。如：huawei、xiaomi的应用名字不同，我们就直建res/values/string.xml就可以了
+     *
+     * 为什么可以这样，因为：Gradle在构建应用时，会优先使用Flavors所属dataSet中的同名资源
+     *
+     * 新增的flavors，所有的参数都允许重新设置，如：RC就重新设置了部分参数
+     * 也可以一个参数都不设置，如：alpha、xiaomi等等，如果不设置就用默认配置的Flavors：defaultConfig
+     */
+    //新增的Flavors-----即我们产品的特性
+    productFlavors {
+        //内测版本
+        alpha {
+            //......
+        }
+        //公测版本
+        beta {
+            //....
+        }
+        //预选版本
+        RC {
+            minSdkVersion 15
+            signingConfig signingConfigs.signingconfig
+            targetSdkVersion 25
+            versionCode 1
+            versionName '1.0.1'
+            versionNameSuffix 'RC'
+        }
+        //豌豆荚渠道发布的版本
+        wandoujia {
+            //....
+        }
+        //华为渠道发布的版本
+        huawei {
+            //....
+        }
+        //小米渠道发布的版本
+        xiaomi {
+            //....
+        }
+        //........还可以有好多
+
+        //自动替换AndroidManifest中的渠道号
+        productFlavors.all { flavor ->
+            flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
+        }
+
+        /**
+         * 通过菜单栏操作
+         * Build Types(选项)：
+         *      Name: 构建类型的名称 如：debug、release
+         *      Debuggable: 是否可以调试
+         *      Jin Debuggable: jin是否可以调试
+         *      Signing Config: 选择签名 同样还在Signing中配置好，若此处为空则不签名，打出来的包也是未签名的
+         *      Renderscript Debuggable: 是否使用渲染脚本
+         *      Renderscript Optim Level:
+         *      Minify Enabled: 是否混淆
+         *      Pseudo Locales Enabled: 是否支持本地化整理
+         *      Proguard File: 指定混淆文件路径
+         *      Application id Suffix: 应用程序id后缀
+         *      Version Name Suffix:版本名称后缀
+         *      Zip Align Enabled: 是否支持zip Align(字节码对其)
+         *
+         *      .......还有好多参数没有写出来
+         *      如：
+         *      //显示log
+         *      buildConfigField "boolean" ,"LOG_DEBUG","true"
+         *      //移除无用的resource文件，minifyEnabled必须为true
+         *      shrinkResources true
+         */
+        //配置应用程序的构建类型，默认的有俩个：debug、release
+        //debug默认没显示，我们可以手动添加（也可以不加）
+        //Android系统要求应用程序必须签名才能安装到系统中
+        //调试时Android SDK自动生成了签名证书：debug.keystore,因此debug包可以再真机、模拟器上
+        //运行、调试。但不能发到应用市场上。
+        buildTypes {
+            debug {
+                //..........
+                signingConfig signingConfigs.signingconfig
+            }
+            release {
+                minifyEnabled true
+                proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+                signingConfig signingConfigs.signingconfig
+                buildConfigField "boolean", "LOG_DEBUG", "false"
+                shrinkResources true
+            }
+        }
+    }
+
+    //打包后自动修改apk的名字
+    //release包的命名格式：产品名_版本号_渠道号.apk
+    //debug包的命名格式：产品名_版本号_渠道号_Debug_打包时间.apk
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def outputFile = output.outputFile
+            if (null != outputFile && outputFile.name.endsWith('.apk')) {
+
+                File outputDir = new File(outputFile.parent)
+                def baseName = PRODUCT_NAME + "${defaultConfig.versionName}" +
+                        "_" + variant.productFlavors[0].name
+                def newApkName
+                if (variant.buildType.name.equals('release')) {
+                    newApkName = baseName + '.apk'
+                } else if (variant.buildType.name.equals('debug')) {
+                    newApkName = baseName + "_debug_${packageTime()}.apk"
+                }
+
+                output.outputFile = new File(outputDir, newApkName)
+
+            }
+
+        }
+
+    }
+}
+/**
+ * 通过菜单栏操作
+ * dependencies（选项）
+ *      Library dependency
+ *      File dependency
+ *      Module dependency
+ *
+ */
+//配置应用程序依赖
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    //编译时需要依赖libs目录下的所有jar
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support.constraint:constraint-layout:1.0.1'
+    androidTestCompile 'junit:junit:4.12'
+}
+
+//指定依赖的仓库源，一旦指定就会覆盖在项目build.gradle中指定的默认仓库
+repositories {
+    jcenter()
+}
