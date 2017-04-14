@@ -32,16 +32,16 @@ android {
     aaptOptions {
         ignoreAssetsPattern 'Cities'
     }
-    //增量打包（不是全量），开启后可以提升编译和打包的速度
-    dexOptions {
-        incremental true
-    }
-    //指定资源版本
-    //指定目标版本
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
-    }
+//    //增量打包（不是全量），开启后可以提升编译和打包的速度
+//    dexOptions {
+//        incremental true
+//    }
+//    //指定资源版本
+//    //指定目标版本
+//    compileOptions {
+//        sourceCompatibility JavaVersion.VERSION_1_7
+//        targetCompatibility JavaVersion.VERSION_1_7
+//    }
     /**
      * 通过菜单栏操作
      * Signing(选项)
@@ -150,47 +150,56 @@ android {
             flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
         }
 
-        /**
-         * 通过菜单栏操作
-         * Build Types(选项)：
-         *      Name: 构建类型的名称 如：debug、release
-         *      Debuggable: 是否可以调试
-         *      Jin Debuggable: jin是否可以调试
-         *      Signing Config: 选择签名 同样还在Signing中配置好，若此处为空则不签名，打出来的包也是未签名的
-         *      Renderscript Debuggable: 是否使用渲染脚本
-         *      Renderscript Optim Level:
-         *      Minify Enabled: 是否混淆
-         *      Pseudo Locales Enabled: 是否支持本地化整理
-         *      Proguard File: 指定混淆文件路径
-         *      Application id Suffix: 应用程序id后缀
-         *      Version Name Suffix:版本名称后缀
-         *      Zip Align Enabled: 是否支持zip Align(字节码对其)
-         *
-         *      .......还有好多参数没有写出来
-         *      如：
-         *      //显示log
-         *      buildConfigField "boolean" ,"LOG_DEBUG","true"
-         *      //移除无用的resource文件，minifyEnabled必须为true
-         *      shrinkResources true
-         */
-        //配置应用程序的构建类型，默认的有俩个：debug、release
-        //debug默认没显示，我们可以手动添加（也可以不加）
-        //Android系统要求应用程序必须签名才能安装到系统中
-        //调试时Android SDK自动生成了签名证书：debug.keystore,因此debug包可以再真机、模拟器上
-        //运行、调试。但不能发到应用市场上。
-        buildTypes {
-            debug {
-                //..........
-                signingConfig signingConfigs.signingconfig
-            }
-            release {
-                minifyEnabled true
-                proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-                signingConfig signingConfigs.signingconfig
-                buildConfigField "boolean", "LOG_DEBUG", "false"
-                shrinkResources true
-            }
+    }
+
+    /**
+     * 通过菜单栏操作
+     * Build Types(选项)：
+     *      Name: 构建类型的名称 如：debug、release
+     *      Debuggable: 是否可以调试
+     *      Jin Debuggable: jin是否可以调试
+     *      Signing Config: 选择签名 同样还在Signing中配置好，若此处为空则不签名，打出来的包也是未签名的
+     *      Renderscript Debuggable: 是否使用渲染脚本
+     *      Renderscript Optim Level:
+     *      Minify Enabled: 是否混淆
+     *      Pseudo Locales Enabled: 是否支持本地化整理
+     *      Proguard File: 指定混淆文件路径
+     *      Application id Suffix: 应用程序id后缀
+     *      Version Name Suffix:版本名称后缀
+     *      Zip Align Enabled: 是否支持zip Align(字节码对其)
+     *
+     *      .......还有好多参数没有写出来
+     *      如：
+     *      //显示log
+     *      buildConfigField "boolean" ,"LOG_DEBUG","true"
+     *      //移除无用的resource文件，minifyEnabled必须为true
+     *      shrinkResources true
+     */
+    //配置应用程序的构建类型，默认的有俩个：debug、release
+    //debug默认没显示，我们可以手动添加（也可以不加）
+    //Android系统要求应用程序必须签名才能安装到系统中
+    //调试时Android SDK自动生成了签名证书：debug.keystore,因此debug包可以再真机、模拟器上
+    //运行、调试。但不能发到应用市场上。
+    buildTypes {
+        debug {
+            //..........
+            signingConfig signingConfigs.signingconfig
         }
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.signingconfig
+            buildConfigField "boolean", "LOG_DEBUG", "false"
+            shrinkResources true
+        }
+//        //广告版的release 小米
+//        pay.initWith(buildTypes.release)
+//        pay{
+//
+//            //然后在依赖总添加
+//            //payCompile ********************
+//
+//        }
     }
 
     //打包后自动修改apk的名字
@@ -200,8 +209,6 @@ android {
         variant.outputs.each { output ->
             def outputFile = output.outputFile
             if (null != outputFile && outputFile.name.endsWith('.apk')) {
-
-                File outputDir = new File(outputFile.parent)
                 def baseName = PRODUCT_NAME + "${defaultConfig.versionName}" +
                         "_" + variant.productFlavors[0].name
                 def newApkName
@@ -211,12 +218,22 @@ android {
                     newApkName = baseName + "_debug_${packageTime()}.apk"
                 }
 
-                output.outputFile = new File(outputDir, newApkName)
+                output.outputFile = new File(outputFile.parent, newApkName)
 
             }
 
         }
 
+    }
+
+    //变体过滤器,忽略某些变体，如：xiaomi Release
+    android.variantFilter { variant ->
+        if(variant.buildType.name.equals('release')) {
+            variant.getFlavors().each() { flavor ->
+                if (flavor.name.equals('xiaomi')) { variant.setIgnore(true);
+                }
+            }
+        }
     }
 }
 /**

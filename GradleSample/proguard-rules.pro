@@ -57,7 +57,6 @@
 -keep public class * extends android.preference.Preference
 -keep public class * extends android.support.v4.app.Fragment
 -keep public class * extends android.support.v4.app.DialogFragment
--keep public class * extends
 -keep public class * extends android.app.Fragment
 -keep public class com.android.vending.licensing.ILicensingService
 
@@ -100,9 +99,9 @@
     public static final android.os.Parcelable$Creator *;
 }
 
-#资源类不混淆
+#R文件的静态成员
 -keepclassmembers class **.R$* {
-　　public static <fields>;
+    public static <fields>;
 }
 
 ##注解继承类不混淆
