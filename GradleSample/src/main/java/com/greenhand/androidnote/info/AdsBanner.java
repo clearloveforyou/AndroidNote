@@ -1,4 +1,4 @@
-package com.greenhand.androidnote;
+package com.greenhand.androidnote.info;
 
 import java.io.Serializable;
 import java.util.List;
@@ -49,7 +49,7 @@ public class AdsBanner implements Serializable {
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Serializable {
         /**
          * apHeight : 313
          * apName : 新版App_Banner
@@ -144,7 +144,7 @@ public class AdsBanner implements Serializable {
             this.advList = advList;
         }
 
-        public static class AdvListBean {
+        public static class AdvListBean implements Serializable {
             /**
              * resUrl : /upload/img/ag/1491702598104-904872.jpg
              * startDate : 1481782347000

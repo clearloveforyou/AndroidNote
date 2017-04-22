@@ -5,19 +5,24 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.widget.ImageView;
 
+import com.greenhand.androidnote.adapter.HomeRvAdapter;
+import com.greenhand.androidnote.httpcallback.AdsCallBack;
+import com.greenhand.androidnote.httpcallback.FlowerCallBack;
+import com.greenhand.androidnote.httpcallback.TabsCallBack;
+import com.greenhand.androidnote.info.AdsBanner;
+import com.greenhand.androidnote.info.Flowers;
+import com.greenhand.androidnote.info.TabBean;
+import com.greenhand.androidnote.utils.Constant;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import okhttp3.Call;
 
 /**
@@ -57,6 +62,10 @@ import okhttp3.Call;
  * setting.gradle：-----
  * local.properties:SDK、NDK路径配置文件
  */
+
+/**
+ * 显示方法分隔符：Editor----Ceneral-----Apperance-show Method sep...
+ */
 public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.img_home_search)
@@ -64,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.rv_home)
     RecyclerView rvHome;
 
-    private List<String> imgUrls;
+    private List<AdsBanner.DataBean.AdvListBean> advListBeen;
     private List<TabBean.DataBean> tabBeanList;
     private List<Flowers.DataBean> flowersList;
     private HomeRvAdapter rvAdapter;
@@ -92,13 +101,13 @@ public class MainActivity extends AppCompatActivity {
                         .build());
 
         //
-        rvAdapter = new HomeRvAdapter(imgUrls,tabBeanList,flowersList,this);
+        rvAdapter = new HomeRvAdapter(advListBeen, tabBeanList, flowersList, this);
         rvHome.setAdapter(rvAdapter);
     }
 
     private void initData() {
 
-        imgUrls = new ArrayList<>();
+        advListBeen = new ArrayList<>();
         tabBeanList = new ArrayList<>();
         flowersList = new ArrayList<>();
         //banner
@@ -117,13 +126,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onResponse(AdsBanner response, int id) {
 
                         AdsBanner.DataBean dataBean = response.getData().get(0);
-                        List<AdsBanner.DataBean.AdvListBean> advList = dataBean.getAdvList();
-
-                        for (int i = 0,len = advList.size();i<len;i++){
-                            AdsBanner.DataBean.AdvListBean bean = advList.get(i);
-                            imgUrls.add(Constant.FUWUQI_DE+bean.getResUrl());
-                        }
-
+                        advListBeen.addAll(dataBean.getAdvList());
                         rvAdapter.notifyDataSetChanged();
                     }
                 });

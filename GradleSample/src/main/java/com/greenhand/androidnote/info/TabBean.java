@@ -1,4 +1,4 @@
-package com.greenhand.androidnote;
+package com.greenhand.androidnote.info;
 
 import java.io.Serializable;
 import java.util.List;
@@ -49,7 +49,7 @@ public class TabBean implements Serializable {
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Serializable {
         /**
          * menuPic : /upload/img/store/slide/1478766032848.png
          * sort : 1

@@ -1,5 +1,7 @@
-package com.greenhand.androidnote;
+package com.greenhand.androidnote.httpcallback;
 
+import com.greenhand.androidnote.utils.JsonUtils;
+import com.greenhand.androidnote.info.AdsBanner;
 import com.zhy.http.okhttp.callback.Callback;
 
 import okhttp3.Response;

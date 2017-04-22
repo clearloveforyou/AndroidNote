@@ -1,4 +1,4 @@
-package com.greenhand.androidnote;
+package com.greenhand.androidnote.utils;
 
 import com.alibaba.fastjson.JSON;
 

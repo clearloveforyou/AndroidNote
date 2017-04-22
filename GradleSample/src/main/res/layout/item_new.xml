@@ -26,23 +26,20 @@
             android:layout_height="wrap_content"
             android:text="更多"
             android:textColor="@android:color/darker_gray"
+            android:drawableRight="@drawable/vip_appointment_more"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"/>
+            android:layout_marginRight="15dp"/>
     </RelativeLayout>
 
     <ImageView
         android:id="@+id/img_head2"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="170dp"
         android:scaleType="fitXY"/>
 
-    <GridView
-        android:id="@+id/gv_item_new"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_new"
         android:layout_width="match_parent"
-        android:layout_height="350dp"
-        android:horizontalSpacing="3dp"
-        android:verticalSpacing="3dp"
-        android:numColumns="3"
-        android:overScrollMode="never"/>
+        android:layout_height="wrap_content"/>
 </LinearLayout>

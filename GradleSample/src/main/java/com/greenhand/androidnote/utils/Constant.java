@@ -1,4 +1,4 @@
-package com.greenhand.androidnote;
+package com.greenhand.androidnote.utils;
 
 /**
  * project: AndroidNote
@@ -28,4 +28,17 @@ public class Constant {
 
 
     public static final String HOME_LIST_SHOW_GET_URL = "http://www.acggou.com/api/v2/index/floors";
+
+
+    //////////////////////////////////商品详情////////////////////////////////////////
+
+    public static final String PRODUCT_DETILD_POST_URL = "http://www.acggou.com/goods/api/goodsdetail";
+
+    //////////////////////////////////商品网页详情////////////////////////////////////
+
+    public static String getWebUrl(String goodsId){
+
+        return "http://www.acggou.com/m/goods/goodsIntroduce?goodsId="+goodsId+"&isShow=0";
+    }
+
 }

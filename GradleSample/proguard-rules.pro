@@ -126,6 +126,31 @@
 
 #如果你的项目中用了第三方库，请参考其官方文档说明进行混淆
 
+#####Okhttp START#####
+-dontwarn okio.**
+#####Okhttp END#####
+
+
+#####Gilde Start#####
+-keep public class * implements com.bumptech.glide.module.GlideModule
+-keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
+  **[] $VALUES;
+  public *;
+}
+
+#####Glide END#####
+
+#####Fastjson START#####
+
+-dontwarn com.alibaba.fastjson.**
+
+-keep class com.alibaba.fastjson.**{*;}
+-keep class * implements java.io.Serializable { *; }
+
+-keepattributes *Annotation
+-keepattributes Signature
+#####Fastjson END#####
+
 #####支付宝混淆START#####
 
 

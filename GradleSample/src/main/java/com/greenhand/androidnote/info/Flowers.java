@@ -1,5 +1,6 @@
-package com.greenhand.androidnote;
+package com.greenhand.androidnote.info;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -11,7 +12,7 @@ import java.util.List;
  * description:
  */
 
-public class Flowers {
+public class Flowers implements Serializable {
 
 
     /**
@@ -48,7 +49,7 @@ public class Flowers {
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Serializable {
         /**
          * floorStyles : 3
          * floorName : 新品推荐
@@ -173,7 +174,7 @@ public class Flowers {
             this.goodsList = goodsList;
         }
 
-        public static class GoodsListBean {
+        public static class GoodsListBean implements Serializable{
             /**
              * goodsId : 10466
              * goodsImage : /upload/img/store/0/1492148121379.jpg
