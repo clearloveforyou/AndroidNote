@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/AndroidNote.iml" filepath="$PROJECT_DIR$/AndroidNote.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DaoExample/DaoExample.iml" filepath="$PROJECT_DIR$/DaoExample/DaoExample.iml" />
       <module fileurl="file://$PROJECT_DIR$/GradleSample/GradleSample.iml" filepath="$PROJECT_DIR$/GradleSample/GradleSample.iml" />
     </modules>
   </component>

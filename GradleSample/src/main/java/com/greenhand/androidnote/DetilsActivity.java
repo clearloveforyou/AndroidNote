@@ -29,6 +29,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import okhttp3.Call;
+import okhttp3.OkHttpClient;
 
 public class DetilsActivity extends AppCompatActivity {
 
@@ -96,6 +97,25 @@ public class DetilsActivity extends AppCompatActivity {
                         setlist(response);
                     }
                 });
+
+        OkHttpUtils.post()
+                .url("http://www.acggou.com/loginapi/login")
+                .addParams("username","13967189624")
+                .addParams("password","1414006272")
+//                .addParams("sessionId","a9394a16-c900-464e-ac7d-9930adcbe000")
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        String s = response;
+                    }
+                });
+
     }
 
     private void setlist(DetilsInfo response) {
